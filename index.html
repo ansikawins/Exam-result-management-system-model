@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exam Result Management System</title>
+<style>
+:root{--bg:#f3f4f7;--card:#fff;--tx:#1a2440;--mu:#667189;--pr:#17336a;--pt:#fff;--soft:#e8edf6;--bd:#d8deea;--ok:#15803d;--bad:#b91c1c;--ac:#c9a24a;--hd:#0f2547;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1424;--card:#141d31;--tx:#e5eaf3;--mu:#9aa6bd;--pr:#8fb0e8;--pt:#0c1424;--soft:#1c2842;--bd:#25324d;--hd:#0a1220;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1424;--card:#141d31;--tx:#e5eaf3;--mu:#9aa6bd;--pr:#8fb0e8;--pt:#0c1424;--soft:#1c2842;--bd:#25324d;--hd:#0a1220;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 "Segoe UI",system-ui,sans-serif}
+h1,h2,h3,.big{font-family:Georgia,"Times New Roman",serif;font-weight:600}
+h1,h2,h3{margin:0 0 .6rem}h2{font-size:22px;color:var(--pr)}h3{font-size:17px}.mu{color:var(--mu)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+button{background:var(--pr);color:var(--pt);border:0;border-radius:8px;padding:.5rem .95rem;font:inherit;font-weight:600;cursor:pointer}
+button:hover{filter:brightness(1.1)}
+button.g{background:var(--soft);color:var(--pr)}button.d{background:var(--bad);color:#fff}
+input,select,textarea{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:.5rem .65rem;width:100%}
+label{display:block;margin:.55rem 0;font-size:13px;color:var(--mu)}.chk{display:flex;align-items:center;gap:6px}.chk input{width:auto}
+.top{background:var(--hd);color:#fff;display:flex;align-items:center;gap:10px;padding:.65rem 1.2rem;position:sticky;top:0;z-index:5;border-bottom:3px solid var(--ac)}
+.brand{display:flex;align-items:center;gap:12px;flex:1;min-width:0;font:600 17px Georgia,serif}.brand small{display:block;font:12px "Segoe UI",sans-serif;opacity:.75}
+.who{font-size:13px;opacity:.85;text-transform:capitalize}
+.top button{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);padding:.35rem .8rem}
+.app{display:flex;min-height:calc(100vh - 60px)}
+.side{width:220px;background:var(--card);border-right:1px solid var(--bd);padding:1rem .8rem;flex:none}
+.side a{display:block;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:3px;font-weight:500}
+.side a:hover{background:var(--soft)}.side a.on{background:var(--pr);color:var(--pt)}
+.main{flex:1;padding:1.4rem;min-width:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:1.1rem;margin-bottom:12px}
+.cards .card{margin:0;border-top:3px solid var(--pr)}.big{font-size:28px;color:var(--pr)}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{padding:.55rem .7rem;border-bottom:1px solid var(--bd);text-align:left}th{background:var(--soft);color:var(--pr);font-size:13px;font-weight:600}tbody tr:hover td,table tr:hover td{background:var(--bg)}
+.bar{display:flex;align-items:center;gap:8px;margin:6px 0}.bar i{display:block;height:12px;background:var(--pr);border-radius:3px;min-width:3px}
+.tag{padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;color:#fff}.P{background:var(--ok)}.F{background:var(--bad)}.N{background:var(--mu)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.row>*{flex:1;min-width:130px}.row button{flex:none}
+dialog{border:1px solid var(--bd);border-radius:12px;background:var(--card);color:var(--tx);width:min(420px,92vw)}
+dialog::backdrop{background:rgba(15,37,71,.5)}
+.r{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+#toast{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));background:var(--hd);color:#fff;border-left:4px solid var(--ac);padding:.65rem 1rem;border-radius:8px;display:none;z-index:9}
+.hero{text-align:center;padding:3rem 1rem;background:var(--hd);color:#fff}.hero h1{font-size:32px}.hero p{margin:0;opacity:.8}
+.logo{width:40px;height:40px;border-radius:8px;background:var(--ac);color:#0f2547;display:inline-flex;align-items:center;justify-content:center;font:700 14px "Segoe UI",sans-serif;flex:none}
+.wrap{max-width:960px;margin:auto;padding:1.2rem}.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:12px}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px}.feat .card{margin:0;border-left:3px solid var(--ac)}.feat h3{font-size:15px;margin:0 0 .25rem}.feat p{margin:0;font-size:13px}
+.ov{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.donut{width:124px;height:124px;border-radius:50%;background:conic-gradient(var(--ok) 0 var(--p),var(--bad) var(--p) calc(var(--p) + var(--f)),var(--bd) 0);display:grid;place-items:center;flex:none}
+.donut span{width:88px;height:88px;border-radius:50%;background:var(--card);display:grid;place-items:center;font:600 22px Georgia,serif}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+@media(max-width:700px){.app{flex-direction:column}.side{width:100%;display:flex;overflow-x:auto;gap:4px;padding:.5rem}.side a{white-space:nowrap;margin:0}.brand small,.who{display:none}.top{padding:.55rem .8rem}}
+@media print{.side,.np,.top,#toast{display:none!important}.main{padding:0}body{background:#fff;color:#000}}
+</style></head><body>
+<div id="root"></div><dialog id="dlg"></dialog><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),e=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let db,user=null,page="dash",gFilt={q:"",d:"",sub:""};
+const COL="Greenfield Institute of Technology",EXAM="Semester 3 End Semester, 2026–27";
+function seed(){const D=[["Aarav Kumar","CSE","CSE-A"],["Divya Lakshmi","CSE","CSE-A"],["Karthik Raja","CSE","CSE-B"],["Meena Sundaram","CSE","CSE-B"],["Naveen Prabhu","CSE","CSE-A"],["Priya Nair","ECE","ECE-A"],["Rahul Verma","ECE","ECE-A"],["Sneha Iyer","ECE","ECE-A"],["Vikram Singh","CSE","CSE-B"],["Yamini Devi","ECE","ECE-A"]];
+const sub=[["CS301","Data Structures","CSE"],["CS302","Database Systems","CSE"],["CS303","Operating Systems","CSE"],["CS304","Computer Networks","CSE"],["EC301","Signals and Systems","ECE"],["EC302","Digital Electronics","ECE"],["EC303","Analog Circuits","ECE"]];
+db={set:{pass:40,grades:"90 A+\n80 A\n70 B+\n60 B\n50 C\n40 D\n0 F"},
+students:D.map((d,i)=>({id:"S"+String(i+1).padStart(3,"0"),name:d[0],reg:"2026"+d[1]+String(i+1).padStart(3,"0"),dept:d[1],cls:d[2],year:2,sem:3,email:d[0].split(" ")[0].toLowerCase()+"@git.edu",phone:"98765"+String(43210+i)})),
+subjects:sub.map(s=>({code:s[0],name:s[1],dept:s[2],sem:3,im:40,em:60,credits:4})),
+faculty:[{id:"F001",pw:"fac123",name:"Dr. R. Mohan",subs:["CS301","CS302","EC301"]},{id:"F002",pw:"fac123",name:"Prof. S. Anitha",subs:["CS303","CS304","EC302","EC303"]}],marks:{}};
+db.students.forEach((s,i)=>db.subjects.filter(x=>x.dept===s.dept).forEach((x,j)=>{db.marks[s.id+"|"+x.code]=[22+(i*7+j*13)%19,28+(i*11+j*17)%33]}));
+db.marks["S004|CS302"]=[10,14];}
+function load(){try{db=JSON.parse(localStorage.getItem("erms3"))}catch(x){}if(!db)seed()}
+function save(){try{localStorage.setItem("erms3",JSON.stringify(db))}catch(x){}}
+function toast(m){const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display="none",2600)}
+function gradeOf(p){for(const l of db.set.grades.split("\n")){const[a,g]=l.trim().split(/\s+/);if(p>=+a)return g}return"F"}
+function calc(s){const subs=db.subjects.filter(x=>x.dept===s.dept);
+const rows=subs.map(x=>{const m=db.marks[s.id+"|"+x.code];if(!m)return{x};const t=m[0]+m[1],mx=x.im+x.em,p=t/mx*100;return{x,i:m[0],e:m[1],t,mx,p,g:gradeOf(p),ok:p>=db.set.pass}});
+const dn=rows.filter(r=>r.t!==undefined),total=dn.reduce((a,r)=>a+r.t,0),max=dn.reduce((a,r)=>a+r.mx,0),pct=max?total/max*100:0;
+const st=!dn.length||dn.length<subs.length?"PENDING":dn.every(r=>r.ok)?"PASS":"FAIL";
+return{rows,total,max,pct,avg:dn.length?total/dn.length:0,g:gradeOf(pct),st,n:dn.length}}
+function ranks(key){const all=db.students.map(s=>({s,c:calc(s)})).filter(o=>o.c.n),g={};
+all.forEach(o=>(g[key?o.s[key]:"All"]??=[]).push(o));const out=[];
+Object.keys(g).sort().forEach(k=>{g[k].forEach(o=>{o.r=1+g[k].filter(p=>p.c.total>o.c.total).length;o.grp=k});out.push(...g[k].sort((a,b)=>a.r-b.r))});return out}
+function rankOf(s,key){const o=ranks(key).find(o=>o.s.id===s.id);return o?o.r:"–"}
+const L={dash:"Dashboard",stu:"Student Management",sub:"Subject Management",marks:"Marks Management",res:"Results",rank:"Rankings",rep:"Reports",set:"Settings"};
+const NAV={admin:["dash","stu","sub","marks","res","rank","rep","set"],faculty:["marks","res","rank","rep"],student:["res","rank"]};
+function login(){const id=$("#li").value.trim().toUpperCase(),pw=$("#lp").value.trim();let u=null;
+if(id==="ADMIN"&&pw==="admin123")u={role:"admin",name:"Administrator"};
+const f=db.faculty.find(x=>x.id===id&&x.pw===pw);if(f)u={role:"faculty",name:f.name,subs:f.subs};
+const s=db.students.find(x=>x.id===id)&&pw==="pass123"&&db.students.find(x=>x.id===id);if(s)u={role:"student",name:s.name,sid:s.id};
+if(!u)return toast("Invalid ID or password.");user=u;page=NAV[u.role][0];draw()}
+function demo(i,p){$("#li").value=i;$("#lp").value=p;login()}
+function logout(){user=null;draw()}
+function landing(){return`<div class="hero"><h1>Exam Result Management System</h1><p>Marks entry, grading and published results for ${COL}.</p></div>
+<div class="wrap"><div class="two"><div class="card"><h3>Sign in</h3><label>User ID<input id="li" placeholder="admin, F001 or S001" autocapitalize="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter')$('#lp').focus()"></label><label>Password<input id="lp" type="password" autocomplete="new-password" autocapitalize="off" autocorrect="off" onkeydown="if(event.key==='Enter')login()"></label><label class="chk"><input type="checkbox" onchange="$('#lp').type=this.checked?'text':'password'"> Show password</label><button onclick="login()">Sign in</button><div class="row" style="margin-top:12px"><button class="g" onclick="demo('admin','admin123')">Demo: Admin</button><button class="g" onclick="demo('F001','fac123')">Demo: Faculty</button><button class="g" onclick="demo('S001','pass123')">Demo: Student</button></div>
+<p class="mu" style="font-size:13px;margin:0">Demo logins: admin / admin123, F001 / fac123, S001 / pass123</p></div>
+<div class="card"><h3>About the system</h3><p class="mu">Faculty enter internal and external marks. Totals, percentages, grades, pass or fail status and ranks are calculated automatically. Students see only their own results.</p></div></div>
+<div class="feat"><div class="card"><h3>Role-based access</h3><p class="mu">Separate views for administrators, faculty and students.</p></div><div class="card"><h3>Validated marks entry</h3><p class="mu">Range checks and no duplicate records.</p></div><div class="card"><h3>Configurable grading</h3><p class="mu">Set the pass mark and grade bands in Settings.</p></div><div class="card"><h3>Rankings</h3><p class="mu">Class, department and semester ranks, updated on save.</p></div><div class="card"><h3>Dashboard insights</h3><p class="mu">Pass rate, toppers and subjects that need attention.</p></div><div class="card"><h3>Print and export</h3><p class="mu">Printable result sheets and CSV downloads.</p></div></div>
+<div class="card"><h3>Contact</h3><p class="mu" style="margin:0">Examination Cell, ${COL} · exams@git.edu · +91 98765 00000</p></div></div>`}
+function top(){const u=user;return`<header class="top np"><div class="brand"><span class="logo">GIT</span><span>${COL}<small>Exam Result Management System</small></span></div>${u?`<span class="who">${e(u.name)} · ${u.role}</span>`:""}<button onclick="theme()" aria-label="Switch between light and dark theme">Light / Dark</button>${u?`<button onclick="logout()">Logout</button>`:""}</header>`}
+function theme(){const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=d?"light":"dark";try{localStorage.setItem("erms-theme",r.dataset.theme)}catch(x){}}
+function csv(n,rows){const t=rows.map(r=>r.map(c=>{let s=String(c??"");if(/^[=+@]/.test(s))s="'"+s;return'"'+s.replace(/"/g,'""')+'"'}).join(",")).join("\r\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+t],{type:"text/csv"}));a.download=n+".csv";a.click();toast("Exported "+n+".csv")}
+function exportStu(){csv("students",[["ID","Name","Register no.","Department","Class","Year","Semester","Email","Phone"],...db.students.map(s=>[s.id,s.name,s.reg,s.dept,s.cls,s.year,s.sem,s.email,s.phone])])}
+function exportRank(){csv("rankings",[["Group","Rank","Name","Register no.","Total","Max","Percentage","Status"],...ranks(gFilt.by??"cls").map(o=>[o.grp,o.r,o.s.name,o.s.reg,o.c.total,o.c.max,o.c.pct.toFixed(2),o.c.st])])}
+function exportRes(){csv("results",[["Register no.","Name","Department","Class","Total","Max","Percentage","Grade","Status","Class rank"],...db.students.map(s=>{const c=calc(s);return[s.reg,s.name,s.dept,s.cls,c.total,c.max,c.pct.toFixed(2),c.g,c.st,rankOf(s,"cls")]})])}
+function draw(){const r=$("#root");if(!user){r.innerHTML=top()+landing();return}
+r.innerHTML=top()+`<div class="app"><nav class="side">${NAV[user.role].map(p=>`<a class="${p===page?"on":""}" onclick="page='${p}';draw()">${L[p]}</a>`).join("")}</nav><main class="main" id="m"></main></div>`;
+$("#m").innerHTML=({dash,stu,sub,marks,res,rank,rep,set})[page]()}
+function dash(){const A=db.students.map(s=>({s,c:calc(s)})).filter(o=>o.c.n),pass=A.filter(o=>o.c.st==="PASS").length,fail=A.filter(o=>o.c.st==="FAIL").length,gs={};
+A.forEach(o=>gs[o.c.g]=(gs[o.c.g]||0)+1);const mx=Math.max(1,...Object.values(gs)),n=A.length,pp=n?pass/n*100:0,fp=n?fail/n*100:0,top=[...A].sort((a,b)=>b.c.total-a.c.total).slice(0,3);
+const weak=db.subjects.map(x=>{const m=Object.keys(db.marks).filter(k=>k.endsWith("|"+x.code)).map(k=>(db.marks[k][0]+db.marks[k][1])/(x.im+x.em)*100);return{x,n:m.length,p:m.length?m.filter(v=>v>=db.set.pass).length/m.length*100:0}}).filter(o=>o.n).sort((a,b)=>a.p-b.p).slice(0,3);
+return`<h2>Dashboard</h2><div class="cards"><div class="card"><span class="mu">Students</span><div class="big">${db.students.length}</div></div><div class="card"><span class="mu">Faculty</span><div class="big">${db.faculty.length}</div></div><div class="card"><span class="mu">Subjects</span><div class="big">${db.subjects.length}</div></div><div class="card"><span class="mu">Examinations</span><div class="big">1</div></div><div class="card"><span class="mu">Pass %</span><div class="big">${pp.toFixed(0)}%</div></div><div class="card"><span class="mu">Class average</span><div class="big">${n?(A.reduce((a,o)=>a+o.c.pct,0)/n).toFixed(1):0}%</div></div></div>
+<div class="two"><div class="card"><h3>Result overview</h3><div class="ov"><div class="donut" style="--p:${pp}%;--f:${fp}%"><span>${pp.toFixed(0)}%</span></div><div><div><span class="dot" style="background:var(--ok)"></span>Pass: ${pass}</div><div><span class="dot" style="background:var(--bad)"></span>Fail: ${fail}</div><div><span class="dot" style="background:var(--bd)"></span>Pending: ${db.students.length-pass-fail}</div></div></div></div>
+<div class="card"><h3>Top performers</h3>${top.map((o,i)=>`<div class="bar"><b>${i+1}.</b> ${e(o.s.name)} <span class="mu">${o.s.cls}</span> <b style="margin-left:auto">${o.c.pct.toFixed(1)}%</b></div>`).join("")||'<p class="mu">No marks entered yet.</p>'}</div></div>
+<div class="two"><div class="card"><h3>Grade distribution</h3>${db.set.grades.split("\n").map(l=>l.split(/\s+/)[1]).map(g=>`<div class="bar"><b style="width:28px">${g}</b><i style="width:${(gs[g]||0)/mx*70}%"></i>${gs[g]||0}</div>`).join("")}</div>
+<div class="card"><h3>Subjects needing attention</h3>${weak.map(o=>`<div class="bar"><span>${o.x.code} ${e(o.x.name)}</span><b style="margin-left:auto">${o.p.toFixed(0)}% pass</b></div>`).join("")||'<p class="mu">No marks entered yet.</p>'}<p class="mu" style="font-size:13px">Lowest pass rates among subjects with marks.</p></div></div>`}
+function form(title,fields,v,cb){const d=$("#dlg");d.innerHTML=`<h3>${title}</h3><form id="f">${fields.map(([k,l,t])=>`<label>${l}<input name="${k}" type="${t||"text"}" value="${e(v[k])}" required></label>`).join("")}<div class="r"><button type="button" class="g" onclick="dlg.close()">Cancel</button><button>Save</button></div></form>`;
+$("#f").onsubmit=ev=>{ev.preventDefault();if(cb(Object.fromEntries(new FormData(ev.target))))d.close()};d.showModal()}
+function stu(){const q=gFilt.q.toLowerCase(),l=db.students.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.reg.toLowerCase().includes(q))&&(!gFilt.d||s.dept===gFilt.d));
+return`<h2>Student Management</h2><div class="row np"><input placeholder="Search name or register number" value="${e(gFilt.q)}" oninput="gFilt.q=this.value;draw();$('.main input').focus()"><select onchange="gFilt.d=this.value;draw()"><option value="">All departments</option>${[...new Set(db.students.map(s=>s.dept))].map(d=>`<option ${gFilt.d===d?"selected":""}>${d}</option>`).join("")}</select><button onclick="editS()">+ Add student</button><button class="g" onclick="exportStu()">Export CSV</button></div>
+<div class="card tw"><table><tr><th>ID</th><th>Name</th><th>Reg. No.</th><th>Dept</th><th>Class</th><th>Yr/Sem</th><th>Email</th><th>Phone</th><th></th></tr>${l.map(s=>`<tr><td>${s.id}</td><td>${e(s.name)}</td><td>${s.reg}</td><td>${s.dept}</td><td>${s.cls}</td><td>${s.year}/${s.sem}</td><td>${e(s.email)}</td><td>${e(s.phone)}</td><td style="white-space:nowrap"><button class="g" onclick="viewR('${s.id}')">View</button> <button class="g" onclick="editS('${s.id}')">Edit</button> <button class="d" onclick="delS('${s.id}')">Delete</button></td></tr>`).join("")||"<tr><td colspan=9>No students found.</td></tr>"}</table></div>`}
+function viewR(id){page="res";gFilt.sid=id;draw()}
+function editS(id){const o=db.students.find(s=>s.id===id),v=o||{};
+form(o?"Edit student":"Add student",[["id","Student ID"],["name","Name"],["reg","Register number"],["dept","Department"],["cls","Class"],["year","Year","number"],["sem","Semester","number"],["email","Email","email"],["phone","Phone"]],v,n=>{
+if(!/^\d{10}$/.test(n.phone))return toast("Phone must be 10 digits."),0;
+if(db.students.some(s=>s!==o&&(s.id===n.id||s.reg===n.reg)))return toast("Student ID or register number already exists."),0;
+n.year=+n.year;n.sem=+n.sem;if(o){if(o.id!==n.id)for(const k in db.marks)if(k.startsWith(o.id+"|")){db.marks[n.id+k.slice(k.indexOf("|"))]=db.marks[k];delete db.marks[k]}Object.assign(o,n)}else db.students.push(n);
+save();draw();toast("Student saved.");return 1})}
+function delS(id){if(!confirm("Delete this student and their marks?"))return;db.students=db.students.filter(s=>s.id!==id);for(const k in db.marks)if(k.startsWith(id+"|"))delete db.marks[k];save();draw();toast("Student deleted.")}
+function sub(){return`<h2>Subject Management</h2><div class="row np"><button onclick="editSub()">+ Add subject</button></div><div class="card tw"><table><tr><th>Code</th><th>Name</th><th>Dept</th><th>Sem</th><th>Internal max</th><th>External max</th><th>Credits</th><th></th></tr>${db.subjects.map(x=>`<tr><td>${x.code}</td><td>${e(x.name)}</td><td>${x.dept}</td><td>${x.sem}</td><td>${x.im}</td><td>${x.em}</td><td>${x.credits}</td><td style="white-space:nowrap"><button class="g" onclick="editSub('${x.code}')">Edit</button> <button class="d" onclick="delSub('${x.code}')">Delete</button></td></tr>`).join("")}</table></div><p class="mu">Passing rule: ${db.set.pass}% in every subject (change under Settings).</p>`}
+function editSub(c){const o=db.subjects.find(x=>x.code===c);form(o?"Edit subject":"Add subject",[["code","Subject code"],["name","Subject name"],["dept","Department"],["sem","Semester","number"],["im","Internal max marks","number"],["em","External max marks","number"],["credits","Credits","number"]],o||{},n=>{
+if(db.subjects.some(x=>x!==o&&x.code===n.code))return toast("Subject code already exists."),0;
+["sem","im","em","credits"].forEach(k=>n[k]=+n[k]);if(n.im<0||n.em<0||n.im+n.em<=0)return toast("Enter valid maximum marks."),0;
+if(o)Object.assign(o,n);else db.subjects.push(n);save();draw();toast("Subject saved.");return 1})}
+function delSub(c){if(!confirm("Delete this subject and its marks?"))return;db.subjects=db.subjects.filter(x=>x.code!==c);for(const k in db.marks)if(k.endsWith("|"+c))delete db.marks[k];save();draw();toast("Subject deleted.")}
+function marks(){const al=user.role==="admin"?db.subjects:db.subjects.filter(x=>user.subs.includes(x.code));
+if(!al.length)return"<h2>Marks Management</h2><p>No subjects assigned.</p>";
+const x=al.find(a=>a.code===gFilt.sub)||al[0],q=gFilt.q.toLowerCase(),l=db.students.filter(s=>s.dept===x.dept&&(!q||s.name.toLowerCase().includes(q)||s.reg.toLowerCase().includes(q)));
+return`<h2>Marks Management</h2><div class="row np"><select onchange="gFilt.sub=this.value;draw()">${al.map(a=>`<option value="${a.code}" ${a===x?"selected":""}>${a.code} – ${e(a.name)}</option>`).join("")}</select><input placeholder="Search student" value="${e(gFilt.q)}" oninput="gFilt.q=this.value;draw();$('.main .row input').focus()"></div>
+<p class="mu">${EXAM} · Internal max ${x.im}, external max ${x.em}</p><div class="card tw"><table><tr><th>Reg. No.</th><th>Name</th><th>Internal</th><th>External</th><th>Total</th><th></th></tr>${l.map(s=>{const m=db.marks[s.id+"|"+x.code]||["",""];return`<tr><td>${s.reg}</td><td>${e(s.name)}</td><td><input type="number" id="i${s.id}" min="0" max="${x.im}" value="${m[0]}" style="width:80px"></td><td><input type="number" id="e${s.id}" min="0" max="${x.em}" value="${m[1]}" style="width:80px"></td><td>${m[0]===""?"–":m[0]+m[1]}</td><td><button onclick="saveM('${s.id}','${x.code}')">Save</button></td></tr>`}).join("")}</table></div>`}
+function saveM(sid,code){const x=db.subjects.find(a=>a.code===code),i=$("#i"+sid).value,v=$("#e"+sid).value;
+if(i===""||v==="")return toast("Enter both internal and external marks.");
+const a=+i,b=+v;if(!Number.isInteger(a)||!Number.isInteger(b)||a<0||b<0||a>x.im||b>x.em)return toast(`Invalid marks. Internal 0–${x.im}, external 0–${x.em}.`);
+db.marks[sid+"|"+code]=[a,b];save();draw();toast("Marks saved. Result and ranks updated.")}
+function sheet(s){const c=calc(s),tg=c.st==="PASS"?"P":c.st==="FAIL"?"F":"N";
+return`<div class="card"><div style="text-align:center"><span class="logo">GIT</span><h2>${COL}</h2><b>Statement of Marks</b><div class="mu">${EXAM}</div></div><hr style="border:0;border-top:1px solid var(--bd)">
+<div class="two"><div>Name: <b>${e(s.name)}</b><br>Register No.: <b>${s.reg}</b><br>Department: <b>${s.dept}</b> (${s.cls})</div><div>Academic year: <b>2026–27</b><br>Semester: <b>${s.sem}</b><br>Examination: <b>${EXAM}</b></div></div>
+<div class="tw"><table><tr><th>Code</th><th>Subject</th><th>Internal</th><th>External</th><th>Total</th><th>Grade</th><th>Result</th></tr>${c.rows.map(r=>r.t===undefined?`<tr><td>${r.x.code}</td><td>${e(r.x.name)}</td><td colspan=5 class="mu">Marks not entered</td></tr>`:`<tr><td>${r.x.code}</td><td>${e(r.x.name)}</td><td>${r.i}</td><td>${r.e}</td><td>${r.t}/${r.mx}</td><td>${r.g}</td><td><span class="tag ${r.ok?"P":"F"}">${r.ok?"PASS":"FAIL"}</span></td></tr>`).join("")}</table></div>
+<div class="cards" style="margin-top:12px"><div><span class="mu">Total</span><div><b>${c.total} / ${c.max}</b></div></div><div><span class="mu">Average</span><div><b>${c.avg.toFixed(2)}</b></div></div><div><span class="mu">Percentage</span><div><b>${c.pct.toFixed(2)}%</b></div></div><div><span class="mu">Overall grade</span><div><b>${c.g}</b></div></div><div><span class="mu">Status</span><div><span class="tag ${tg}">${c.st}</span></div></div><div><span class="mu">Class rank</span><div><b>${rankOf(s,"cls")}</b></div></div></div>
+<div class="r np"><button onclick="print()">Download PDF / Print</button></div></div>`}
+function res(){let s;if(user.role==="student")s=db.students.find(x=>x.id===user.sid);else{s=db.students.find(x=>x.id===gFilt.sid)||db.students[0];
+return`<h2>Results</h2><div class="row np"><select onchange="gFilt.sid=this.value;draw()">${db.students.map(t=>`<option value="${t.id}" ${t===s?"selected":""}>${t.reg} – ${e(t.name)}</option>`).join("")}</select></div>`+(s?sheet(s):"")}
+return`<h2>My Result</h2>`+sheet(s)}
+function rank(){const key=user.role==="student"?"cls":gFilt.by??"cls";
+if(user.role==="student"){const s=db.students.find(x=>x.id===user.sid);return`<h2>My Ranking</h2><div class="cards"><div class="card"><span class="mu">Class (${s.cls})</span><div class="big">${rankOf(s,"cls")}</div></div><div class="card"><span class="mu">Department (${s.dept})</span><div class="big">${rankOf(s,"dept")}</div></div><div class="card"><span class="mu">Semester ${s.sem} overall</span><div class="big">${rankOf(s,"sem")}</div></div></div>`}
+const R=ranks(key),med=["🥇","🥈","🥉"];
+return`<h2>Rankings</h2><div class="row np"><select onchange="gFilt.by=this.value;draw()">${[["cls","Class-wise"],["dept","Department-wise"],["sem","Semester-wise"]].map(([v,t])=>`<option value="${v}" ${v===key?"selected":""}>${t}</option>`).join("")}</select><button class="g" onclick="exportRank()">Export CSV</button></div><div class="card tw"><table><tr><th>Group</th><th>Rank</th><th>Name</th><th>Reg. No.</th><th>Total</th><th>%</th><th>Status</th></tr>${R.map(o=>`<tr><td>${o.grp}</td><td>${med[o.r-1]||""} ${o.r}</td><td>${e(o.s.name)}</td><td>${o.s.reg}</td><td>${o.c.total}/${o.c.max}</td><td>${o.c.pct.toFixed(1)}</td><td><span class="tag ${o.c.st==="PASS"?"P":o.c.st==="FAIL"?"F":"N"}">${o.c.st}</span></td></tr>`).join("")}</table></div><p class="mu">Equal totals share the same rank. Ranks update as soon as marks are saved.</p>`}
+function rep(){const A=db.students.map(s=>({s,c:calc(s)})).filter(o=>o.c.n),p=A.filter(o=>o.c.st==="PASS").length,top=[...A].sort((a,b)=>b.c.total-a.c.total).slice(0,3);
+const subs=user.role==="admin"?db.subjects:db.subjects.filter(x=>user.subs.includes(x.code));
+const grp=k=>[...new Set(db.students.map(s=>s[k]))].map(v=>{const g=A.filter(o=>o.s[k]===v),ps=g.filter(o=>o.c.st==="PASS").length;return`<tr><td>${v}</td><td>${g.length}</td><td>${g.length?(ps/g.length*100).toFixed(0):0}%</td><td>${g.length?(100-ps/g.length*100).toFixed(0):0}%</td><td>${g.length?(g.reduce((a,o)=>a+o.c.pct,0)/g.length).toFixed(1):0}%</td></tr>`}).join("");
+const th="<tr><th>Group</th><th>Students</th><th>Pass</th><th>Fail</th><th>Avg %</th></tr>";
+return`<h2>Reports</h2><div class="row np"><button onclick="print()">Download PDF / Print</button><button class="g" onclick="exportRes()">Export results CSV</button></div><div class="cards"><div class="card"><span class="mu">Pass %</span><div class="big">${A.length?(p/A.length*100).toFixed(0):0}%</div></div><div class="card"><span class="mu">Fail %</span><div class="big">${A.length?(100-p/A.length*100).toFixed(0):0}%</div></div></div>
+<div class="card"><h3>Top performers</h3>${top.map((o,i)=>`<div class="bar"><b>${i+1}.</b> ${e(o.s.name)} <i style="width:${o.c.pct*.5}%"></i>${o.c.pct.toFixed(1)}%</div>`).join("")}</div>
+<div class="card tw"><h3>Class-wise</h3><table>${th}${grp("cls")}</table></div><div class="card tw"><h3>Department-wise</h3><table>${th}${grp("dept")}</table></div>
+<div class="card tw"><h3>Subject-wise performance</h3><table><tr><th>Subject</th><th>Entered</th><th>Average</th><th>Pass %</th><th>Highest</th></tr>${subs.map(x=>{const m=Object.keys(db.marks).filter(k=>k.endsWith("|"+x.code)).map(k=>db.marks[k][0]+db.marks[k][1]),mx=x.im+x.em,ps=m.filter(t=>t/mx*100>=db.set.pass).length;return`<tr><td>${x.code} ${e(x.name)}</td><td>${m.length}</td><td>${m.length?(m.reduce((a,b)=>a+b,0)/m.length).toFixed(1):"–"}</td><td>${m.length?(ps/m.length*100).toFixed(0)+"%":"–"}</td><td>${m.length?Math.max(...m):"–"}</td></tr>`}).join("")}</table></div>`}
+function set(){return`<h2>Settings</h2><div class="card"><h3>Grading and passing rules</h3><label>Pass mark per subject (%)<input id="sp" type="number" min="0" max="100" value="${db.set.pass}"></label><label>Grade rules (minimum % then grade, one per line, highest first)<textarea id="sg" rows="8">${e(db.set.grades)}</textarea></label><div class="row"><button onclick="saveSet()">Save rules</button><button class="d" onclick="if(confirm('Reset all data to the demo set?')){seed();save();draw();toast('Demo data restored.')}">Reset demo data</button></div></div>`}
+function saveSet(){const p=+$("#sp").value,g=$("#sg").value.trim();if(!(p>=0&&p<=100))return toast("Pass mark must be 0–100.");
+const ok=g.split("\n").every(l=>/^\d+(\.\d+)?\s+\S+$/.test(l.trim()));if(!ok)return toast("Each grade line needs a number and a grade, e.g. 90 A+.");
+db.set={pass:p,grades:g};save();toast("Rules saved. All results recalculated.")}
+try{const t=localStorage.getItem("erms-theme");if(t)document.documentElement.dataset.theme=t}catch(x){}
+load();draw();
+</script></body></html>
